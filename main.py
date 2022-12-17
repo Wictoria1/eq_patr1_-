@@ -13,6 +13,10 @@ def index():
     shows = queries.get_shows()
     return render_template('index.html', shows=shows)
 
+@app.route('/actors')
+def get_actors():
+    actors = queries.get_actors()
+    return render_template('actors.html',actors=actors)
 
 @app.route('/design')
 def design():
@@ -53,26 +57,18 @@ def shows(page_number=1, order_by="rating", order="DESC"):
     )
 
 
-@app.route('/show/<int:id>/')
-def show(id):
-    show = queries.get_show(id)
-    characters = queries.get_show_characters(id, 3)
-    seasons = queries.get_show_seasons(id)
 
-    # format character names
-    show['characters_str'] = \
-        ', '.join([character['name'] for character in characters])
+    
 
     # getting trailer id from URL to embed video
-    show['trailer_id'] = \
-        show['trailer'][show['trailer'].find('=')+1:] if show['trailer'] else ''
+    
+    
 
-    # format runtime
-    hours, minutes = divmod(show['runtime'], 60)
-    runtime_str = (str(hours)+'h ' if hours else '') + (str(minutes)+'min' if minutes else '')
-    show['runtime_str'] = runtime_str
+    
 
-    return render_template('show.html', show=show, seasons=seasons)
+    
+    
+
 
 
 def main():
